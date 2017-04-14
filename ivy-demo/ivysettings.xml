@@ -1,0 +1,22 @@
+<ivysettings>
+    <settings defaultResolver="central" />
+    <credentials host="localhost" realm="Sonatype Nexus Repository Manager"
+        username="admin" passwd="admin123" />
+    <publications>
+        <artifact name="simple-project" type="jar" />
+    </publications>
+    <property name="central"
+        value="https://maven.aliyun.com/repository/central" />
+    <property name="nexus-releases"
+        value="http://localhost:8081/repository/maven-releases/" />
+    <property name="nexus-snapshots"
+        value="https://localhost:8081/repository/maven-snapshots/" />
+    <resolvers>
+        <ibiblio name="central" m2compatible="true" root="${central}" />
+        <ibiblio name="nexus-releases" m2compatible="true"
+            root="${nexus-releases}" />
+        <ibiblio name="nexus-snapshots" m2compatible="true"
+            root="${nexus-snapshots}" checkmodified="true"
+            changingPattern="*-SNAPSHOT" />
+    </resolvers>
+</ivysettings>

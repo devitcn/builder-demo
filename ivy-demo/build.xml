@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     2017年4月7日 上午11:10:00                                                        
+
+     ANT演示    
+     演示ANT向MAVEN过渡的工程样板
+     
+     固定指令：
+     - clean 
+     - compile
+     - test
+     - package
+                   
+     lxb                                                                
+     ====================================================================== -->
+<project name="ANT演示" default="default" xmlns:ivy="antlib:org.apache.ivy.ant">
+    <description>
+            演示ANT向MAVEN过渡的工程样板
+    </description>
+
+    <property name="compiler.version" value="1.8" />
+    <property name="maven.build.finalName" value="ivy-demo" />
+    <property name="packaging" value="jar" />
+
+
+    <property name="maven.build.dir" value="target" />
+    <property name="maven.build.outputDir" value="${maven.build.dir}/classes" />
+    <property name="maven.build.resourceDir.0" value="src/main/resources" />
+    <property name="maven.build.testOutputDir" value="${maven.build.dir}/test-classes" />
+    <property name="maven.test.reports" value="${maven.build.dir}/test-reports" />
+    <property name="maven.reporting.outputDirectory" value="${maven.build.dir}/site" />
+    <property name="maven.test.reports" value="${maven.build.dir}/junit-reports" />
+
+    <target name="default">
+        <echo>clean:
+compile:
+package:
+        </echo>
+
+    </target>
+
+    <target name="init">
+        <mkdir dir="target" />
+    </target>
+
+    <path id="build.classpath">
+        <fileset dir="target/lib/compile/jar" />
+        <fileset dir="target/lib/provided/jar" />
+    </path>
+    <path id="build.test.classpath">
+        <fileset dir="target/lib/test/jar" />
+    </path>
+
+    <target name="clean">
+        <delete dir="${maven.build.dir}">
+        </delete>
+    </target>
+
+    <target name="resolve" description="">
+        <ivy:settings file="ivysettings.xml" />
+        <ivy:retrieve pattern="target/lib/[conf]/[type]/[artifact][branch].[ext]" type="jar" />
+    </target>
+    <target name="compile" depends="resolve">
+        <mkdir dir="${maven.build.outputDir}" />
+        <javac destdir="${maven.build.outputDir}" nowarn="false" debug="true" debuglevel="source,lines,vars" optimize="false" deprecation="true" verbose="false" fork="false" includeantruntime="false" target="${compiler.version}" source="${compiler.version}">
+            <src path="src/main/java" />
+            <classpath refid="build.classpath" />
+        </javac>
+        <copy todir="${maven.build.outputDir}">
+            <fileset dir="src/main/resources">
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="test-compile" depends="compile">
+        <mkdir dir="${maven.build.testOutputDir}" />
+        <javac destdir="${maven.build.testOutputDir}" nowarn="false" debug="true" debuglevel="source,lines,vars" optimize="false" deprecation="true" verbose="false" fork="false" includeantruntime="false" target="${compiler.version}" source="${compiler.version}">
+            <src>
+                <pathelement location="src/test/java" />
+            </src>
+            <classpath>
+                <path refid="build.test.classpath" />
+                <pathelement location="${maven.build.outputDir}" />
+            </classpath>
+        </javac>
+
+
+        <copy todir="${maven.build.testOutputDir}">
+            <fileset dir="src/test/resources">
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="test" depends="test-compile">
+        <mkdir dir="${maven.test.reports}" />
+        <junit printSummary="yes" haltonerror="true" haltonfailure="true" fork="true" dir=".">
+            <sysproperty key="basedir" value="." />
+            <formatter type="xml" />
+            <formatter type="plain" usefile="false" />
+            <classpath>
+                <path refid="build.test.classpath" />
+                <path refid="build.classpath" />
+                <pathelement location="${maven.build.outputDir}" />
+                <pathelement location="${maven.build.testOutputDir}" />
+            </classpath>
+            <batchtest todir="${maven.test.reports}" unless="test">
+                <fileset dir="src/test/java">
+                    <include name="**/*Tests.java" />
+                    <include name="**/*Test.java" />
+                    <exclude name="**/Abstract*.java" />
+                </fileset>
+            </batchtest>
+            <batchtest todir="${maven.test.reports}" if="test">
+                <fileset dir="src/test/java">
+                    <include name="**/${test}.java" />
+                    <exclude name="**/Abstract*.java" />
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="package" depends="compile,test" description="Package the application">
+        <jar jarfile="${maven.build.dir}/${maven.build.finalName}.jar" compress="true" index="false" basedir="${maven.build.outputDir}" excludes="**/package.html">
+        </jar>
+    </target>
+
+    <target name="deploy">
+        <ivy:resolve/>
+        <ivy:makepom ivyfile="ivy.xml" pomfile="${maven.build.dir}/pom.xml" />
+        <ivy:publish deliverivypattern="ivy.xml" resolver="nexus-snapshots" overwrite="true" publishivy="false">
+            <artifacts pattern="${maven.build.dir}/[artifact].[ext]" />
+        </ivy:publish>
+    </target>
+
+</project>
