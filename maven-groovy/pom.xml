@@ -11,7 +11,7 @@
   </properties>
   <pluginRepositories>
     <pluginRepository>
-      <id>bintray</id>
+      <id>groovy-bintray</id>
       <name>Groovy Bintray</name>
       <url>https://dl.bintray.com/groovy/maven</url>
       <releases>
