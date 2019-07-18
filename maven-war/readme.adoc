@@ -38,19 +38,21 @@ J2EE6以上的中间件，可以直接使用maven依赖：
 |===
 |API | Middleware
 
-|javaee:javaee:5
-|JBoss EAP5
+|javaee:javaee:5 (servlet 2.5)
+|JBoss EAP5，WLS 11gR1
 
-|javax:javaee-api:6.0
-|JBoss EAP 6,GlassFish 3
+|javax:javaee-api:6.0 (servlet 3.0)
+|JBoss EAP 6,GlassFish 3，WLS 12cR1
 
-|javax:javaee-api:7.0 
-|JBoss EAP 7,WildFly 12,GlassFish 4.0
+|javax:javaee-api:7.0 (servlet 3.1)
+|JBoss EAP 7,WildFly 12,GlassFish 4.0，WLS 12cR2(12.2.1.3) 
 
-|javax:javaee-api:8.0
+|javax:javaee-api:8.0 (servlet 4.0)
 |JBoss EAP 7.2,GlassFish 5.0
 
 |===
+
+https://en.wikipedia.org/wiki/Oracle_WebLogic_Server
 
 https://www.ibm.com/support/knowledgecenter/en/SSAW57_8.5.5/com.ibm.websphere.nd.multiplatform.doc/ae/rovr_specs.html
 
