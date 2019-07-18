@@ -1,0 +1,57 @@
+
+= maven-war
+
+J2EE6以上的中间件，可以直接使用maven依赖：
+
+[source, xml]
+----
+<dependency>
+  <groupId>javax</groupId>
+  <artifactId>javaee-api</artifactId>
+  <version>6.0</version>
+  <scope>provided</scope>
+</dependency>
+
+<dependency>
+  <groupId>javax</groupId>
+  <artifactId>javaee-web-api</artifactId>
+  <version>6.0</version>
+  <scope>provided</scope>
+</dependency>
+----
+
+如果想看具体某一个规范的版本号，可以直接打开javaee-api或者javaee-web-api的pom文件查询，
+以optional依赖提供。
+
+5，可以使用如下依赖：
+[source, xml]
+----
+<dependency>
+  <groupId>javaee</groupId>
+  <artifactId>javaee-api</artifactId>
+  <version>5</version>
+  <scope>provided</scope>
+</dependency>
+----
+
+.jboss & glassfish 
+|===
+|API | Middleware
+
+|javaee:javaee:5
+|JBoss EAP5
+
+|javax:javaee-api:6.0
+|JBoss EAP 6,GlassFish 3
+
+|javax:javaee-api:7.0 
+|JBoss EAP 7,WildFly 12,GlassFish 4.0
+
+|javax:javaee-api:8.0
+|JBoss EAP 7.2,GlassFish 5.0
+
+|===
+
+https://www.ibm.com/support/knowledgecenter/en/SSAW57_8.5.5/com.ibm.websphere.nd.multiplatform.doc/ae/rovr_specs.html
+
+https://access.redhat.com/articles/113373
