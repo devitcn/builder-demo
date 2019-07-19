@@ -59,5 +59,14 @@ http://maven.apache.org/
 
     mvn package -P prod
 
+### maven-groovy
 
+ 如何在maven中编译groovy和java
+ 
+### template
+
+ 提供两个配置模板
+ 
+- settings.xml 配置阿里云镜像
+- pom.xml 配置servlet2.5时代的包依赖，用于旧工程的迁移
 
